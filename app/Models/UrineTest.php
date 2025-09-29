@@ -88,9 +88,7 @@ class UrineTest extends Model
                     ->whereYear('test_date', now()->year);
     }
 
-    /**
-     * Accessor untuk format tanggal
-     */
+    
     public function getFormattedTestDateAttribute()
     {
         return $this->test_date->format('d/m/Y H:i');

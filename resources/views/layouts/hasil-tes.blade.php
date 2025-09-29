@@ -18,7 +18,7 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <!-- Breadcrumb -->
+    
     <nav class="mb-8">
         <ol class="flex items-center space-x-2 text-sm">
             <li><a href="{{ route('dashboard') }}" class="text-blue-600 hover:text-blue-800">Dashboard</a></li>
@@ -27,7 +27,6 @@
         </ol>
     </nav>
 
-    <!-- Header -->
     <div class="flex items-center justify-between mb-8">
         <div>
             <h1 class="text-3xl font-bold text-gray-900">Hasil Tes Analisis Urin</h1>
@@ -108,7 +107,7 @@
         </div>
     </div>
 
-    <!-- Filters and Search -->
+   
     <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-200 mb-8">
         <form method="GET" action="{{ route('hasil-tes') }}" id="filter-form">
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
@@ -150,7 +149,7 @@
         </form>
     </div>
 
-    <!-- Results Table -->
+  
     <div class="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-200">
             <h3 class="text-lg font-medium text-gray-900">Daftar Hasil Tes</h3>
@@ -449,7 +448,7 @@ function exportAllData() {
     window.location.href = '/urine-tests/export-excel';
 }
 
-// Search with debounce
+
 let searchTimeout;
 document.getElementById('search-input')?.addEventListener('input', function(e) {
     clearTimeout(searchTimeout);
@@ -458,14 +457,14 @@ document.getElementById('search-input')?.addEventListener('input', function(e) {
     }, 500);
 });
 
-// Close modal when clicking outside
+
 document.getElementById('detail-modal')?.addEventListener('click', function(e) {
     if (e.target === this) {
         closeModal();
     }
 });
 
-// Initialize page
+
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Hasil Tes page loaded');
     const totalTests = {{ $stats['total'] ?? 0 }};

@@ -123,7 +123,7 @@
                 </form>
             </div>
 
-            <!-- Step 2: Sensor Preparation (Hidden initially) -->
+            <!-- Step 2: Sensor Preparation -->
             <div id="sensor-prep" class="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 hidden">
                 <h3 class="text-xl font-bold text-gray-900 mb-6">Persiapan Sensor IoT</h3>
                 
@@ -191,7 +191,7 @@
                 </div>
             </div>
 
-            <!-- Step 3: Analysis (Hidden initially) -->
+            <!-- Step 3: Analysis -->
             <div id="analysis-step" class="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 hidden">
                 <h3 class="text-xl font-bold text-gray-900 mb-6">Proses Analisis</h3>
                 
@@ -361,7 +361,7 @@ let currentStep = 1;
 
 function nextStep() {
     if (currentStep === 1) {
-        // Validate patient form
+       
         const patientId = document.getElementById('patient-id').value;
         const patientName = document.getElementById('patient-name').value;
         
@@ -370,7 +370,7 @@ function nextStep() {
             return;
         }
         
-        // Hide step 1, show step 2
+    
         document.getElementById('patient-data').classList.add('hidden');
         document.getElementById('sensor-prep').classList.remove('hidden');
         
@@ -384,7 +384,7 @@ function nextStep() {
 
 function prevStep() {
     if (currentStep === 2) {
-        // Show step 1, hide step 2
+        
         document.getElementById('patient-data').classList.remove('hidden');
         document.getElementById('sensor-prep').classList.add('hidden');
         
@@ -395,7 +395,7 @@ function prevStep() {
 }
 
 function startAnalysis() {
-    // Hide step 2, show step 3
+    
     document.getElementById('sensor-prep').classList.add('hidden');
     document.getElementById('analysis-step').classList.remove('hidden');
     
@@ -403,12 +403,12 @@ function startAnalysis() {
     updateStepProgress(3);
     currentStep = 3;
     
-    // Start analysis simulation
+    
     simulateAnalysis();
 }
 
 function updateStepProgress(step) {
-    // Reset all steps
+   
     for (let i = 1; i <= 4; i++) {
         const stepEl = document.getElementById(`step${i}`);
         if (i < step) {
@@ -437,7 +437,7 @@ function simulateAnalysis() {
     
     const progressSteps = () => {
         if (currentAnalysisStep > 0) {
-            // Complete previous step
+            
             const prevStep = steps[currentAnalysisStep - 1];
             const prevEl = document.getElementById(`progress-${prevStep}`);
             prevEl.className = 'flex items-center justify-between p-4 bg-green-50 rounded-lg';
@@ -447,7 +447,7 @@ function simulateAnalysis() {
         }
         
         if (currentAnalysisStep < steps.length) {
-            // Start current step
+           
             const currentStepName = steps[currentAnalysisStep];
             const currentEl = document.getElementById(`progress-${currentStepName}`);
             currentEl.className = 'flex items-center justify-between p-4 bg-blue-50 rounded-lg';
@@ -455,9 +455,9 @@ function simulateAnalysis() {
             currentEl.querySelector('.w-6').innerHTML = '<div class="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>';
             
             currentAnalysisStep++;
-            setTimeout(progressSteps, 2000); // 2 seconds per step
+            setTimeout(progressSteps, 2000); 
         } else {
-            // Analysis complete, show results
+         
             setTimeout(() => {
                 document.getElementById('analysis-step').classList.add('hidden');
                 document.getElementById('results-step').classList.remove('hidden');
@@ -476,7 +476,7 @@ function resetTest() {
         // Reset form
         document.getElementById('patient-form').reset();
         
-        // Show only step 1
+    
         document.getElementById('patient-data').classList.remove('hidden');
         document.getElementById('sensor-prep').classList.add('hidden');
         document.getElementById('analysis-step').classList.add('hidden');
@@ -499,7 +499,7 @@ function saveAsDraft() {
         return;
     }
     
-    // Simulate saving draft
+  
     showToast('Draft berhasil disimpan', 'blue');
 }
 
@@ -511,7 +511,6 @@ function startNewTest() {
 }
 
 function saveResults() {
-    // Simulate saving results
     showToast('Hasil tes berhasil disimpan ke database', 'green');
     
     setTimeout(() => {
@@ -520,12 +519,11 @@ function saveResults() {
 }
 
 function printResults() {
-    // Simulate printing
     showToast('Menyiapkan laporan untuk dicetak...', 'blue');
     
     setTimeout(() => {
         showToast('Laporan siap dicetak', 'green');
-        // In real implementation, this would open print dialog or generate PDF
+
     }, 2000);
 }
 

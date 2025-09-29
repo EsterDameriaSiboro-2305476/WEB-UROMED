@@ -293,10 +293,10 @@
 
 @section('scripts')
 <script>
-// Get CSRF token
+
 const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
 
-// Tambah pasien baru - buka modal
+// Tambah pasien baru
 function addNewPatient() {
     document.getElementById('patient-form').reset();
     document.getElementById('add-patient-title').textContent = 'Tambah Pasien Baru';
@@ -304,7 +304,7 @@ function addNewPatient() {
     document.getElementById('add-patient-modal').classList.remove('hidden');
 }
 
-// Tutup modal tambah/edit
+
 function closeAddPatientModal() {
     document.getElementById('add-patient-modal').classList.add('hidden');
 }
@@ -364,7 +364,7 @@ async function viewPatientDetail(patientId) {
         if (result.status === 'success') {
             const patient = result.data;
             
-            // Build detail HTML
+            
             const detailHtml = `
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div class="space-y-4">
@@ -513,7 +513,7 @@ async function deletePatient(patientId) {
     }
 }
 
-// Tutup modal detail
+
 function closePatientModal() {
     document.getElementById('patient-modal').classList.add('hidden');
 }

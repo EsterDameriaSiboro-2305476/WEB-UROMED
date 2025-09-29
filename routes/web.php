@@ -5,11 +5,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\UrineTestController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-*/
 
 // Authentication Routes
 Route::middleware('guest')->group(function () {
@@ -45,15 +40,16 @@ Route::middleware(['auth'])->group(function () {
         return view('layouts.analisis-ai'); 
     })->name('analisis-ai');
 
-    // Patient Data Routes - FIXED: Menggunakan Controller
+    // Patient Data Routes
     Route::get('/data-pasien', [PatientController::class, 'index'])->name('data-pasien');
     
-    // Tambahan routes untuk PatientController
+    //  routes untuk PatientController
     Route::post('/data-pasien', [PatientController::class, 'store'])->name('patients.store');
     Route::get('/data-pasien/{id}', [PatientController::class, 'show'])->name('patients.show');
     Route::put('/data-pasien/{id}', [PatientController::class, 'update'])->name('patients.update');
     Route::delete('/data-pasien/{id}', [PatientController::class, 'destroy'])->name('patients.destroy');
     Route::get('/data-pasien/export', [PatientController::class, 'export'])->name('patients.export');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
     // API Routes for AJAX requests
     Route::prefix('api')->group(function () {

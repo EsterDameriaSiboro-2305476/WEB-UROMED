@@ -10,10 +10,9 @@
     <div class="w-full max-w-md">
         <!-- Logo & Header -->
         <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-2xl mb-4">
-                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                </svg>
+            <div class="inline-flex items-center justify-center mb-4">
+                <!-- Ganti dengan path logo Anda -->
+                <img src="{{ asset('images/uromed-logo.png') }}" alt="Uromed Logo" class="w-20 h-20">
             </div>
             <h1 class="text-3xl font-bold text-gray-900">Uromed</h1>
             <p class="text-gray-600 mt-2">Buat akun baru</p>
