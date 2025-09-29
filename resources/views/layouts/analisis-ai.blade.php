@@ -528,7 +528,7 @@ function runNewPrediction() {
     // Simulate AI processing
     setTimeout(() => {
         showToast('Prediksi selesai! 3 kasus baru dianalisis', 'green');
-        // In real implementation, this would refresh the predictions
+
     }, 3000);
 }
 
@@ -536,7 +536,7 @@ function trainModel() {
     if (confirm('Apakah Anda yakin ingin melatih ulang model AI? Proses ini akan memakan waktu 15-30 menit.')) {
         showToast('Memulai pelatihan model AI...', 'purple');
         
-        // Simulate training process
+       
         let progress = 0;
         const trainingInterval = setInterval(() => {
             progress += Math.random() * 10;
@@ -555,7 +555,6 @@ function exportAnalysis() {
     
     setTimeout(() => {
         showToast('Laporan AI berhasil diekspor ke PDF', 'green');
-        // In real implementation, this would download the file
     }, 2500);
 }
 
