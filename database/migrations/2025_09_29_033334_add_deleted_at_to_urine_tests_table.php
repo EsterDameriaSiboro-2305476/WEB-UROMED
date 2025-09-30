@@ -9,14 +9,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('urine_tests', function (Blueprint $table) {
-            $table->softDeletes(); // otomatis bikin kolom deleted_at
+            if (!Schema::hasColumn('urine_tests', 'deleted_at')) {
+                $table->softDeletes();
+            }
         });
     }
 
     public function down(): void
     {
         Schema::table('urine_tests', function (Blueprint $table) {
-            $table->dropSoftDeletes(); // hapus kolom deleted_at
+            
+            if (Schema::hasColumn('urine_tests', 'deleted_at')) {
+                $table->dropSoftDeletes();
+            }
         });
     }
 };
