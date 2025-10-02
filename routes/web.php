@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\UrineTestController;
+use App\Http\Controllers\AnalysisController;
 
 
 // Authentication Routes
@@ -32,17 +33,15 @@ Route::middleware(['auth'])->group(function () {
         return view('layouts.test-baru');
     })->name('test-baru');
 
-    
-    Route::get('/hasil-tes', [UrineTestController::class, 'index'])->name('hasil-tes');
 
+    Route::get('/hasil-tes', [UrineTestController::class, 'index'])->name('hasil-tes');
+    Route::post('/analysis/start', [AnalysisController::class, 'store'])->name('analysis.start');
     // AI Analysis Routes
-    Route::get('/analisis-ai', function () {
-        return view('layouts.analisis-ai'); 
-    })->name('analisis-ai');
+    Route::get('/analisis-ai', [AnalysisController::class, 'index'])->name('analisis-ai');
 
     // Patient Data Routes
     Route::get('/data-pasien', [PatientController::class, 'index'])->name('data-pasien');
-    
+
     //  routes untuk PatientController
     Route::post('/data-pasien', [PatientController::class, 'store'])->name('patients.store');
     Route::get('/data-pasien/{id}', [PatientController::class, 'show'])->name('patients.show');
@@ -57,11 +56,11 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/patients/{id}', [PatientController::class, 'update']);
         Route::delete('/patients/{id}', [PatientController::class, 'destroy']);
         Route::get('/patients/{id}', [PatientController::class, 'show']);
-        
+
         Route::post('/tests', function () {
             return response()->json(['status' => 'success', 'message' => 'Tes baru berhasil dibuat']);
         });
-        
+
         Route::get('/tests/{id}', function ($id) {
             return response()->json([
                 'status' => 'success',

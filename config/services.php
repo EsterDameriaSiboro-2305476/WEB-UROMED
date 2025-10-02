@@ -13,7 +13,7 @@ return [
     | a conventional file to locate the various service credentials.
     |
     */
-
+    'ai_backend' => env('AI_BACKEND', 'http://localhost:8082'),
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],

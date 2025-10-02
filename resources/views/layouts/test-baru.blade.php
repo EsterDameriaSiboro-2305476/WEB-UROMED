@@ -85,7 +85,7 @@
             <!-- Step 1: Patient Data -->
             <div id="patient-data" class="bg-white rounded-2xl p-8 shadow-lg border border-gray-200">
                 <h3 class="text-xl font-bold text-gray-900 mb-6">Data Pasien</h3>
-                
+
                 <form id="patient-form" class="space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
@@ -109,12 +109,12 @@
                             </select>
                         </div>
                     </div>
-                    
+
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Keluhan/Gejala</label>
                         <textarea id="patient-symptoms" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Deskripsikan keluhan atau gejala yang dialami pasien..."></textarea>
                     </div>
-                    
+
                     <div class="flex justify-end">
                         <button type="button" onclick="nextStep()" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                             Lanjut ke Persiapan Sensor
@@ -126,7 +126,7 @@
             <!-- Step 2: Sensor Preparation -->
             <div id="sensor-prep" class="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 hidden">
                 <h3 class="text-xl font-bold text-gray-900 mb-6">Persiapan Sensor IoT</h3>
-                
+
                 <div class="space-y-6">
                     <div class="bg-blue-50 p-6 rounded-lg">
                         <h4 class="font-medium text-blue-900 mb-3">Status Sensor</h4>
@@ -169,7 +169,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="bg-gray-50 p-6 rounded-lg">
                         <h4 class="font-medium text-gray-900 mb-3">Petunjuk Penggunaan</h4>
                         <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
@@ -179,7 +179,7 @@
                             <li>Klik tombol "Mulai Analisis" ketika semua sensor siap</li>
                         </ol>
                     </div>
-                    
+
                     <div class="flex justify-between">
                         <button type="button" onclick="prevStep()" class="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors">
                             Kembali
@@ -194,14 +194,14 @@
             <!-- Step 3: Analysis -->
             <div id="analysis-step" class="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 hidden">
                 <h3 class="text-xl font-bold text-gray-900 mb-6">Proses Analisis</h3>
-                
+
                 <div class="space-y-6">
                     <div class="text-center py-8">
                         <div class="w-24 h-24 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                         <p class="text-lg font-medium text-gray-900">Menganalisis Sampel...</p>
                         <p class="text-sm text-gray-600">Proses ini memakan waktu sekitar 2-3 menit</p>
                     </div>
-                    
+
                     <div class="space-y-4">
                         <div id="progress-ph" class="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
                             <span class="text-sm font-medium text-blue-900">Mengukur pH</span>
@@ -211,8 +211,12 @@
                             <span class="text-sm text-gray-600">Analisis Warna</span>
                             <div class="w-6 h-6 border-2 border-gray-300 rounded-full"></div>
                         </div>
-                        <div id="progress-turbidity" class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                            <span class="text-sm text-gray-600">Mengukur Kekeruhan</span>
+                        <div id="progress-mass" class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <span class="text-sm text-gray-600">Mengukur Berat</span>
+                            <div class="w-6 h-6 border-2 border-gray-300 rounded-full"></div>
+                        </div>
+                        <div id="progress-velocity" class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <span class="text-sm text-gray-600">Mengukur Velocity</span>
                             <div class="w-6 h-6 border-2 border-gray-300 rounded-full"></div>
                         </div>
                         <div id="progress-ai" class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
@@ -226,7 +230,7 @@
             <!-- Step 4: Results (Hidden initially) -->
             <div id="results-step" class="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 hidden">
                 <h3 class="text-xl font-bold text-gray-900 mb-6">Hasil Analisis</h3>
-                
+
                 <div class="space-y-6">
                     <div class="bg-green-50 p-6 rounded-lg border border-green-200">
                         <div class="flex items-center mb-4">
@@ -241,30 +245,30 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div class="bg-blue-50 p-4 rounded-lg text-center">
                             <p class="text-sm text-gray-600">pH Level</p>
-                            <p class="text-2xl font-bold text-blue-600">6.2</p>
+                            <p id="result-ph" class="text-2xl font-bold text-blue-600">-</p>
                             <p class="text-xs text-green-600">Normal</p>
                         </div>
                         <div class="bg-yellow-50 p-4 rounded-lg text-center">
                             <p class="text-sm text-gray-600">Warna</p>
-                            <p class="text-2xl font-bold text-yellow-600">Kuning</p>
+                            <p id="result-color" class="text-2xl font-bold text-yellow-600">-</p>
                             <p class="text-xs text-green-600">Normal</p>
                         </div>
                         <div class="bg-purple-50 p-4 rounded-lg text-center">
-                            <p class="text-sm text-gray-600">Kekeruhan</p>
-                            <p class="text-2xl font-bold text-purple-600">Jernih</p>
+                            <p class="text-sm text-gray-600">Berat</p>
+                            <p id="result-mass" class="text-2xl font-bold text-purple-600">-</p>
                             <p class="text-xs text-green-600">Normal</p>
                         </div>
                         <div class="bg-green-50 p-4 rounded-lg text-center">
-                            <p class="text-sm text-gray-600">Protein</p>
-                            <p class="text-2xl font-bold text-green-600">Negatif</p>
+                            <p class="text-sm text-gray-600">Aliran</p>
+                            <p id="result-velocity" class="text-2xl font-bold text-green-600">-</p>
                             <p class="text-xs text-green-600">Normal</p>
                         </div>
                     </div>
-                    
+
                     <div class="flex justify-between">
                         <button type="button" onclick="startNewTest()" class="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors">
                             Tes Baru
@@ -336,7 +340,7 @@
                             <p class="text-xs text-gray-500">Normal - 10:30</p>
                         </div>
                     </div>
-                    
+
                     <div class="flex items-center p-3 bg-yellow-50 rounded-lg">
                         <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center mr-3">
                             <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -361,54 +365,69 @@ let currentStep = 1;
 
 function nextStep() {
     if (currentStep === 1) {
-       
+
         const patientId = document.getElementById('patient-id').value;
         const patientName = document.getElementById('patient-name').value;
-        
+
         if (!patientId || !patientName) {
             showToast('Mohon lengkapi data pasien yang diperlukan', 'red');
             return;
         }
-        
-    
+
+
         document.getElementById('patient-data').classList.add('hidden');
         document.getElementById('sensor-prep').classList.remove('hidden');
-        
+
         // Update progress
         updateStepProgress(2);
         currentStep = 2;
-        
+
         showToast('Data pasien berhasil disimpan', 'green');
     }
 }
 
 function prevStep() {
     if (currentStep === 2) {
-        
+
         document.getElementById('patient-data').classList.remove('hidden');
         document.getElementById('sensor-prep').classList.add('hidden');
-        
+
         // Update progress
         updateStepProgress(1);
         currentStep = 1;
     }
 }
 
-function startAnalysis() {
-    
+async function startAnalysis() {
+
     document.getElementById('sensor-prep').classList.add('hidden');
     document.getElementById('analysis-step').classList.remove('hidden');
-    
+
     // Update progress
     updateStepProgress(3);
     currentStep = 3;
-    
-    
-    simulateAnalysis();
+
+
+    payload = await simulateAnalysis();
+    // Kirim ke backend
+    fetch("{{ route('analysis.start') }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log("Insert success:", data);
+    })
+    .catch(err => console.error("Insert failed:", err));
+    console.log("Analysis results:", results);
 }
 
 function updateStepProgress(step) {
-   
+
     for (let i = 1; i <= 4; i++) {
         const stepEl = document.getElementById(`step${i}`);
         if (i < step) {
@@ -419,7 +438,7 @@ function updateStepProgress(step) {
             stepEl.className = 'step-inactive w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium';
         }
     }
-    
+
     // Update step text
     const stepTexts = {
         1: 'Langkah 1: Input Data Pasien',
@@ -427,65 +446,115 @@ function updateStepProgress(step) {
         3: 'Langkah 3: Proses Analisis',
         4: 'Langkah 4: Hasil Analisis'
     };
-    
+
     document.getElementById('step-text').textContent = stepTexts[step];
 }
 
-function simulateAnalysis() {
-    const steps = ['ph', 'color', 'turbidity', 'ai'];
+async function simulateAnalysis() {
+    const AI_BACKEND = @json(config('services.ai_backend'));
+    const steps = [
+        { name: 'ph', url: `${AI_BACKEND}/analysis/ph` },
+        { name: 'color', url: `${AI_BACKEND}/analysis/color` },
+        { name: 'mass', url: `${AI_BACKEND}/analysis/mass` },
+        { name: 'velocity', url: `${AI_BACKEND}/analysis/velocity` },
+        { name: 'ai', url: `${AI_BACKEND}/analysis/ai` }
+    ];
+
     let currentAnalysisStep = 0;
-    
-    const progressSteps = () => {
+
+    const results = {
+        urine_test_id: 1,
+        ph_level: 0,
+        protein: 0,
+        glucose: 0,
+        color: "",
+        temperature: 0,
+        volume: 250,
+        specific_gravity: 0,
+        raw_sensor_data: {},
+        overall_status: "pending"
+    };
+
+    // helper delay
+    const delay = ms => new Promise(res => setTimeout(res, ms));
+
+    for (let { name, url } of steps) {
+        // update currentAnalysisStep & progress bar UI
         if (currentAnalysisStep > 0) {
-            
-            const prevStep = steps[currentAnalysisStep - 1];
+            const prevStep = steps[currentAnalysisStep - 1].name;
             const prevEl = document.getElementById(`progress-${prevStep}`);
             prevEl.className = 'flex items-center justify-between p-4 bg-green-50 rounded-lg';
-            prevEl.innerHTML = prevEl.innerHTML.replace(/animate-spin/, '').replace(/border-blue-500/, 'border-green-500').replace(/border-gray-300/, 'border-green-500');
-            prevEl.querySelector('.w-6').innerHTML = '<svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+            prevEl.querySelector('.w-6').innerHTML =
+                '<svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
             prevEl.querySelector('span').className = 'text-sm font-medium text-green-700';
         }
-        
-        if (currentAnalysisStep < steps.length) {
-           
-            const currentStepName = steps[currentAnalysisStep];
-            const currentEl = document.getElementById(`progress-${currentStepName}`);
-            currentEl.className = 'flex items-center justify-between p-4 bg-blue-50 rounded-lg';
-            currentEl.querySelector('span').className = 'text-sm font-medium text-blue-900';
-            currentEl.querySelector('.w-6').innerHTML = '<div class="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>';
-            
-            currentAnalysisStep++;
-            setTimeout(progressSteps, 2000); 
-        } else {
-         
-            setTimeout(() => {
-                document.getElementById('analysis-step').classList.add('hidden');
-                document.getElementById('results-step').classList.remove('hidden');
-                updateStepProgress(4);
-                currentStep = 4;
-                showToast('Analisis selesai! Hasil tersedia.', 'green');
-            }, 1000);
+
+        const currentEl = document.getElementById(`progress-${name}`);
+        currentEl.className = 'flex items-center justify-between p-4 bg-blue-50 rounded-lg';
+        currentEl.querySelector('span').className = 'text-sm font-medium text-blue-900';
+        currentEl.querySelector('.w-6').innerHTML =
+            '<div class="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>';
+
+        currentAnalysisStep++;
+
+        try {
+            let response, data;
+
+            if (name === 'ai') {
+                // AI step → tunggu semua sensor selesai
+                response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(results)
+                });
+                data = await response.json();
+                results.raw_sensor_data.analisis_ai = data;
+                results.overall_status = "normal";
+            } else {
+                response = await fetch(url);
+                data = await response.json();
+                document.getElementById(`result-${name}`).innerText = data.result ?? "-";
+                if (name === 'ph') results.ph_level = data.result;
+                if (name === 'color') results.color = data.result;
+                if (name === 'mass') results.raw_sensor_data.mass = data.result;
+                if (name === 'velocity') results.raw_sensor_data.velocity = data.result;
+            }
+        } catch (err) {
+            console.error(`Error in ${name}:`, err);
+            showToast(`Error on step ${name}`, 'red');
         }
-    };
-    
-    progressSteps();
+
+        await delay(800); // delay supaya animasi kelihatan
+    }
+
+    // semua step selesai
+    document.getElementById('analysis-step').classList.add('hidden');
+    document.getElementById('results-step').classList.remove('hidden');
+    updateStepProgress(4);
+    currentStep = 4;
+    showToast('Analisis selesai! Hasil tersedia.', 'green');
+
+    console.log("FINAL PAYLOAD SENT TO BACKEND:", results);
+    return results;
 }
+
+
 
 function resetTest() {
     if (confirm('Apakah Anda yakin ingin mereset tes ini? Semua data akan hilang.')) {
         // Reset form
         document.getElementById('patient-form').reset();
-        
-    
+
+
         document.getElementById('patient-data').classList.remove('hidden');
         document.getElementById('sensor-prep').classList.add('hidden');
         document.getElementById('analysis-step').classList.add('hidden');
         document.getElementById('results-step').classList.add('hidden');
-        
+
         // Reset progress
         updateStepProgress(1);
         currentStep = 1;
-        
+
         showToast('Tes direset. Mulai dari awal.', 'gray');
     }
 }
@@ -493,13 +562,13 @@ function resetTest() {
 function saveAsDraft() {
     const patientId = document.getElementById('patient-id').value;
     const patientName = document.getElementById('patient-name').value;
-    
+
     if (!patientId && !patientName) {
         showToast('Tidak ada data untuk disimpan sebagai draft', 'red');
         return;
     }
-    
-  
+
+
     showToast('Draft berhasil disimpan', 'blue');
 }
 
@@ -512,7 +581,7 @@ function startNewTest() {
 
 function saveResults() {
     showToast('Hasil tes berhasil disimpan ke database', 'green');
-    
+
     setTimeout(() => {
         window.location.href = '{{ route("hasil-tes") }}';
     }, 1500);
@@ -520,7 +589,7 @@ function saveResults() {
 
 function printResults() {
     showToast('Menyiapkan laporan untuk dicetak...', 'blue');
-    
+
     setTimeout(() => {
         showToast('Laporan siap dicetak', 'green');
 
