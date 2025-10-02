@@ -6,16 +6,16 @@
 .ai-card {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
-.prediction-high { 
-    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); 
+.prediction-red {
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
     border-left: 4px solid #ef4444;
 }
-.prediction-medium { 
-    background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%); 
+.prediction-orange {
+    background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
     border-left: 4px solid #f59e0b;
 }
-.prediction-low { 
-    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); 
+.prediction-green {
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
     border-left: 4px solid #10b981;
 }
 .neural-network {
@@ -62,8 +62,8 @@
     <div class="ai-card rounded-2xl p-8 text-white shadow-xl mb-8">
         <div class="flex items-center justify-between">
             <div>
-                <h2 class="text-2xl font-bold mb-2">AI Engine Status</h2>
-                <p class="text-white/80 mb-4">Model Neural Network untuk Analisis Urin</p>
+                <h2 class="text-2xl font-bold mb-2">AI Agent Status</h2>
+                <p class="text-white/80 mb-4">Model LLM untuk Analisis Urin</p>
                 <div class="flex items-center space-x-6">
                     <div class="flex items-center">
                         <div class="w-3 h-3 bg-green-400 rounded-full mr-2 animate-pulse"></div>
@@ -71,11 +71,7 @@
                     </div>
                     <div class="flex items-center">
                         <div class="w-3 h-3 bg-blue-400 rounded-full mr-2"></div>
-                        <span class="text-sm">Model v2.3.1</span>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="w-3 h-3 bg-yellow-400 rounded-full mr-2"></div>
-                        <span class="text-sm">Accuracy: 94.2%</span>
+                        <span class="text-sm">Model Gemini Flash 2.0</span>
                     </div>
                 </div>
             </div>
@@ -90,232 +86,94 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         <!-- Real-time Predictions -->
         <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-200">
-            <h3 class="text-xl font-bold text-gray-900 mb-6">Prediksi Real-time</h3>
-            
+            <h3 class="text-xl font-bold text-gray-900 mb-6">Resiko Penyakit</h3>
+
             <div class="space-y-4">
-                <div class="prediction-high rounded-lg p-4">
-                    <div class="flex items-center justify-between mb-2">
-                        <h4 class="font-medium text-red-800">Risiko Infeksi Saluran Kemih</h4>
-                        <span class="text-sm font-bold text-red-800">Tinggi (87%)</span>
-                    </div>
-                    <p class="text-sm text-red-700 mb-3">Berdasarkan analisis pasien UR-2025-1243 - Budi Santoso</p>
-                    <div class="flex items-center">
-                        <div class="w-full bg-red-200 rounded-full h-2 mr-3">
-                            <div class="bg-red-600 h-2 rounded-full" style="width: 87%"></div>
-                        </div>
-                        <button onclick="viewPredictionDetails('isk-high')" class="text-xs text-red-800 hover:text-red-900 font-medium">Detail</button>
-                    </div>
-                </div>
+                <!-- Modal Background -->
+<div id="prediction-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <!-- Modal Box -->
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-md mx-4">
+        <!-- Header -->
+        <div class="flex justify-between items-center border-b px-6 py-4">
+            <h3 id="prediction-modal-title" class="text-lg font-semibold text-gray-900">Detail Prediksi</h3>
+            <button onclick="closePredictionModal()" class="text-gray-400 hover:text-gray-600">
+                ✕
+            </button>
+        </div>
 
-                <div class="prediction-medium rounded-lg p-4">
-                    <div class="flex items-center justify-between mb-2">
-                        <h4 class="font-medium text-orange-800">Risiko Diabetes</h4>
-                        <span class="text-sm font-bold text-orange-800">Sedang (64%)</span>
-                    </div>
-                    <p class="text-sm text-orange-700 mb-3">Berdasarkan analisis pasien UR-2025-1244 - Siti Nurhaliza</p>
-                    <div class="flex items-center">
-                        <div class="w-full bg-orange-200 rounded-full h-2 mr-3">
-                            <div class="bg-orange-600 h-2 rounded-full" style="width: 64%"></div>
-                        </div>
-                        <button onclick="viewPredictionDetails('diabetes-med')" class="text-xs text-orange-800 hover:text-orange-900 font-medium">Detail</button>
-                    </div>
-                </div>
+        <!-- Body -->
+        <div id="prediction-modal-content" class="px-6 py-4 text-sm text-gray-700">
+            <!-- Konten dari viewPredictionDetails() akan masuk sini -->
+        </div>
 
-                <div class="prediction-low rounded-lg p-4">
-                    <div class="flex items-center justify-between mb-2">
-                        <h4 class="font-medium text-green-800">Risiko Penyakit Ginjal</h4>
-                        <span class="text-sm font-bold text-green-800">Rendah (23%)</span>
-                    </div>
-                    <p class="text-sm text-green-700 mb-3">Berdasarkan analisis pasien UR-2025-1245 - Ahmad Pratama</p>
-                    <div class="flex items-center">
-                        <div class="w-full bg-green-200 rounded-full h-2 mr-3">
-                            <div class="bg-green-600 h-2 rounded-full" style="width: 23%"></div>
-                        </div>
-                        <button onclick="viewPredictionDetails('kidney-low')" class="text-xs text-green-800 hover:text-green-900 font-medium">Detail</button>
-                    </div>
-                </div>
+        <!-- Footer -->
+        <div class="border-t px-6 py-4 flex justify-end">
+            <button onclick="closePredictionModal()" class="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700">
+                Tutup
+            </button>
+        </div>
+    </div>
+</div>
+
+                @foreach ($analisis_ai['risk_disease'] as $risk)
+                    @php
+                        if ($risk['percentage'] > 66) $color = 'red';
+                        elseif ($risk['percentage'] > 33) $color = 'orange';
+                        else $color = 'green';
+                    @endphp
+
+                    <x-risk-card :risk="$risk" :color="$color" />
+                @endforeach
             </div>
 
-            <button onclick="runNewPrediction()" class="mt-6 w-full py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium">
+            {{-- <button onclick="runNewPrediction()" class="mt-6 w-full py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium">
                 Jalankan Prediksi Baru
-            </button>
+            </button> --}}
         </div>
 
         <!-- Pattern Analysis -->
         <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-200">
-            <h3 class="text-xl font-bold text-gray-900 mb-6">Analisis Pola</h3>
-            
-            <div class="space-y-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-1">Hasil Sensor</h3>
+            @foreach ($last_result as $key => $value)
                 <div>
-                    <h4 class="font-medium text-gray-900 mb-3">Tren Mingguan</h4>
-                    <div class="space-y-3">
-                        <div class="flex items-center justify-between">
-                            <span class="text-sm text-gray-600">Tes Normal</span>
-                            <div class="flex items-center">
-                                <div class="w-20 bg-gray-200 rounded-full h-2 mr-3">
-                                    <div class="bg-green-500 h-2 rounded-full" style="width: 78%"></div>
-                                </div>
-                                <span class="text-sm font-medium">78%</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span class="text-sm text-gray-600">Perlu Perhatian</span>
-                            <div class="flex items-center">
-                                <div class="w-20 bg-gray-200 rounded-full h-2 mr-3">
-                                    <div class="bg-yellow-500 h-2 rounded-full" style="width: 18%"></div>
-                                </div>
-                                <span class="text-sm font-medium">18%</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span class="text-sm text-gray-600">Abnormal</span>
-                            <div class="flex items-center">
-                                <div class="w-20 bg-gray-200 rounded-full h-2 mr-3">
-                                    <div class="bg-red-500 h-2 rounded-full" style="width: 4%"></div>
-                                </div>
-                                <span class="text-sm font-medium">4%</span>
-                            </div>
-                        </div>
-                    </div>
+                    <p class="text-sm text-black-600">{{ ucfirst($key) }}: {{ $value ?? '-' }}</p>
                 </div>
+            @endforeach
 
-                <div>
-                    <h4 class="font-medium text-gray-900 mb-3">Parameter Paling Sering Abnormal</h4>
-                    <div class="space-y-2">
-                        <div class="flex justify-between items-center p-3 bg-red-50 rounded-lg">
-                            <span class="text-sm font-medium text-red-800">Protein</span>
-                            <span class="text-sm text-red-700">42% kasus</span>
-                        </div>
-                        <div class="flex justify-between items-center p-3 bg-yellow-50 rounded-lg">
-                            <span class="text-sm font-medium text-yellow-800">pH Level</span>
-                            <span class="text-sm text-yellow-700">31% kasus</span>
-                        </div>
-                        <div class="flex justify-between items-center p-3 bg-orange-50 rounded-lg">
-                            <span class="text-sm font-medium text-orange-800">Kekeruhan</span>
-                            <span class="text-sm text-orange-700">27% kasus</span>
-                        </div>
-                    </div>
-                </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3 mt-2">Analisis Pola</h3>
 
-                <div>
-                    <h4 class="font-medium text-gray-900 mb-3">Korelasi AI</h4>
-                    <p class="text-sm text-gray-600 mb-3">Model AI mendeteksi pola berikut:</p>
-                    <ul class="text-sm text-gray-700 space-y-1">
-                        <li>• pH tinggi + protein positif → 85% kemungkinan ISK</li>
-                        <li>• Warna pekat + berat jenis tinggi → 72% dehidrasi</li>
-                        <li>• Glukosa positif + keton → 91% indikasi diabetes</li>
-                    </ul>
-                </div>
-            </div>
+            <p class="text-sm text-black-600 mb-3">{{$analisis_ai['analysis']?? 'N/A'}}</p>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Saran Penanganan</h3>
+
+            <p class="text-sm text-black-600 mb-3">{{$analisis_ai['solve_step']?? 'N/A'}}</p>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Kondisi Keseluruhan</h3>
+
+            <p class="text-sm text-black-600 mb-3">{{$analisis_ai['overall_status']?? 'N/A'}}</p>
         </div>
     </div>
 
-   
 
-    
+
+
 
 
 @endsection
 
 @section('scripts')
 <script>
-// Prediction detail data
-const predictionDetails = {
-    'isk-high': {
-        title: 'Prediksi Infeksi Saluran Kemih - Risiko Tinggi',
-        confidence: 87,
-        patient: 'Budi Santoso (UR-2025-1243)',
-        factors: [
-            { parameter: 'pH Level', value: '8.5', impact: 'Tinggi', normal: '5.0-7.5' },
-            { parameter: 'Protein', value: 'Positif', impact: 'Tinggi', normal: 'Negatif' },
-            { parameter: 'Leukosit Esterase', value: 'Positif', impact: 'Sedang', normal: 'Negatif' },
-            { parameter: 'Nitrit', value: 'Positif', impact: 'Tinggi', normal: 'Negatif' }
-        ],
-        recommendation: 'Sangat disarankan untuk rujukan ke dokter spesialis urologi. Pertimbangkan pemberian antibiotik empiris sambil menunggu hasil kultur urin.',
-        riskLevel: 'high'
-    },
-    'diabetes-med': {
-        title: 'Prediksi Diabetes - Risiko Sedang',
-        confidence: 64,
-        patient: 'Siti Nurhaliza (UR-2025-1244)',
-        factors: [
-            { parameter: 'Glukosa', value: 'Trace', impact: 'Sedang', normal: 'Negatif' },
-            { parameter: 'Berat Jenis', value: '1.035', impact: 'Sedang', normal: '1.005-1.030' },
-            { parameter: 'pH Level', value: '7.8', impact: 'Rendah', normal: '5.0-7.5' }
-        ],
-        recommendation: 'Disarankan pemeriksaan gula darah puasa dan HbA1c. Monitor gejala diabetes seperti poliuria, polidipsia, dan penurunan berat badan.',
-        riskLevel: 'medium'
-    },
-    'kidney-low': {
-        title: 'Prediksi Penyakit Ginjal - Risiko Rendah',
-        confidence: 23,
-        patient: 'Ahmad Pratama (UR-2025-1245)',
-        factors: [
-            { parameter: 'Protein', value: 'Negatif', impact: 'Rendah', normal: 'Negatif' },
-            { parameter: 'Kreatinin', value: 'Normal', impact: 'Rendah', normal: 'Normal' },
-            { parameter: 'Berat Jenis', value: '1.020', impact: 'Rendah', normal: '1.005-1.030' }
-        ],
-        recommendation: 'Kondisi ginjal dalam batas normal. Lanjutkan pola hidup sehat dan pemeriksaan rutin tahunan.',
-        riskLevel: 'low'
-    }
-};
+function closePredictionModal() {
+    document.getElementById('prediction-modal').classList.add('hidden');
+}
 
-function viewPredictionDetails(predictionId) {
-    const detail = predictionDetails[predictionId];
+function viewPredictionDetails(title, detail) {
     if (!detail) return;
-    
-    const riskColors = {
-        high: { bg: 'bg-red-50', text: 'text-red-800', border: 'border-red-200' },
-        medium: { bg: 'bg-yellow-50', text: 'text-yellow-800', border: 'border-yellow-200' },
-        low: { bg: 'bg-green-50', text: 'text-green-800', border: 'border-green-200' }
-    };
-    
-    const colors = riskColors[detail.riskLevel];
-    
     const content = `
-        <div class="space-y-6">
-            <div class="${colors.bg} ${colors.border} border rounded-lg p-4">
-                <h4 class="${colors.text} font-medium mb-2">Tingkat Kepercayaan AI</h4>
-                <div class="flex items-center">
-                    <div class="w-full bg-gray-200 rounded-full h-3 mr-3">
-                        <div class="h-3 rounded-full ${detail.riskLevel === 'high' ? 'bg-red-500' : detail.riskLevel === 'medium' ? 'bg-yellow-500' : 'bg-green-500'}" style="width: ${detail.confidence}%"></div>
-                    </div>
-                    <span class="${colors.text} font-bold">${detail.confidence}%</span>
-                </div>
-            </div>
-            
-            <div>
-                <h4 class="font-medium text-gray-900 mb-3">Pasien</h4>
-                <p class="text-gray-700">${detail.patient}</p>
-            </div>
-            
-            <div>
-                <h4 class="font-medium text-gray-900 mb-3">Faktor Risiko</h4>
-                <div class="space-y-3">
-                    ${detail.factors.map(factor => `
-                        <div class="border border-gray-200 rounded-lg p-3">
-                            <div class="flex justify-between items-start mb-2">
-                                <span class="font-medium text-gray-900">${factor.parameter}</span>
-                                <span class="text-sm px-2 py-1 rounded-full ${
-                                    factor.impact === 'Tinggi' ? 'bg-red-100 text-red-800' :
-                                    factor.impact === 'Sedang' ? 'bg-yellow-100 text-yellow-800' :
-                                    'bg-green-100 text-green-800'
-                                }">${factor.impact}</span>
-                            </div>
-                            <p class="text-sm text-gray-700">Nilai: <strong>${factor.value}</strong></p>
-                            <p class="text-xs text-gray-500">Normal: ${factor.normal}</p>
-                        </div>
-                    `).join('')}
-                </div>
-            </div>
-            
             <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <h4 class="font-medium text-blue-900 mb-2">Rekomendasi AI</h4>
-                <p class="text-sm text-blue-800">${detail.recommendation}</p>
+                <h4 class="font-medium text-blue-900 mb-2">${title}</h4>
+                <p class="text-sm text-blue-800">${detail}</p>
             </div>
-        </div>
     `;
-    
+
     document.getElementById('prediction-modal-title').textContent = detail.title;
     document.getElementById('prediction-modal-content').innerHTML = content;
     document.getElementById('prediction-modal').classList.remove('hidden');
@@ -327,10 +185,10 @@ function closePredictionModal() {
 
 function runNewPrediction() {
     showToast('Menjalankan prediksi AI baru...', 'purple');
-    
+
     // Simulate AI processing
     setTimeout(() => {
-        showToast('Prediksi selesai! 3 kasus baru dianalisis', 'green');
+        showToast('Prediksi selesai! 3 kasus dianalisis', 'green');
 
     }, 3000);
 }
@@ -338,8 +196,8 @@ function runNewPrediction() {
 function trainModel() {
     if (confirm('Apakah Anda yakin ingin melatih ulang model AI? Proses ini akan memakan waktu 15-30 menit.')) {
         showToast('Memulai pelatihan model AI...', 'purple');
-        
-       
+
+
         let progress = 0;
         const trainingInterval = setInterval(() => {
             progress += Math.random() * 10;
@@ -355,7 +213,7 @@ function trainModel() {
 
 function exportAnalysis() {
     showToast('Menyiapkan laporan analisis AI...', 'green');
-    
+
     setTimeout(() => {
         showToast('Laporan AI berhasil diekspor ke PDF', 'green');
     }, 2500);
@@ -366,22 +224,22 @@ function uploadBulkData() {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = '.csv';
-    
+
     input.onchange = function(e) {
         const file = e.target.files[0];
         if (file) {
             showToast(`File ${file.name} berhasil diupload`, 'green');
-            
+
             setTimeout(() => {
                 showToast('Memproses prediksi batch...', 'blue');
-                
+
                 setTimeout(() => {
                     showToast('Prediksi batch selesai! 247 sampel dianalisis', 'green');
                 }, 4000);
             }, 1000);
         }
     };
-    
+
     input.click();
 }
 
@@ -396,7 +254,7 @@ document.getElementById('prediction-modal').addEventListener('click', function(e
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Analisis AI page loaded');
     showToast('AI Engine siap untuk analisis', 'purple');
-    
+
     // Simulate real-time AI activity
     setInterval(() => {
         const activities = [
@@ -405,7 +263,7 @@ document.addEventListener('DOMContentLoaded', function() {
             'Kalibrasi otomatis parameter AI',
             'Optimasi algoritma neural network'
         ];
-        
+
         const randomActivity = activities[Math.floor(Math.random() * activities.length)];
         console.log(`AI Activity: ${randomActivity}`);
     }, 30000);

@@ -27,15 +27,15 @@ class AiAnalysis extends Model
     }
 
     // Accessor untuk risk level color
-    public function getRiskLevelColorAttribute()
-    {
-        return match($this->risk_level) {
-            'low' => 'green',
-            'medium' => 'yellow',
-            'high' => 'red',
-            default => 'gray'
-        };
-    }
+    // public function getRiskLevelColorAttribute()
+    // {
+    //     return match($this->risk_level) {
+    //         'low' => 'green',
+    //         'medium' => 'yellow',
+    //         'high' => 'red',
+    //         // default => 'gray'
+    //     };
+    // }
 
     // Accessor untuk confidence level
     public function getConfidenceLevelAttribute()

@@ -18,7 +18,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('urine_tests', function (Blueprint $table) {
-            
+
             if (Schema::hasColumn('urine_tests', 'deleted_at')) {
                 $table->dropSoftDeletes();
             }
