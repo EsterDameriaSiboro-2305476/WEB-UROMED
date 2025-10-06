@@ -139,6 +139,7 @@
                                 </div>
                                 <p class="text-sm font-medium text-green-700">pH Sensor</p>
                                 <p class="text-xs text-gray-600">Ready</p>
+                                <pre id="lastMsgPh">—</pre>
                             </div>
                             <div class="text-center">
                                 <div class="sensor-status w-12 h-12 bg-green-500 rounded-full mx-auto mb-2 flex items-center justify-center">
@@ -148,6 +149,7 @@
                                 </div>
                                 <p class="text-sm font-medium text-green-700">Color Sensor</p>
                                 <p class="text-xs text-gray-600">Ready</p>
+                                <pre id="lastMsgColor">—</pre>
                             </div>
                             <div class="text-center">
                                 <div class="sensor-status w-12 h-12 bg-green-500 rounded-full mx-auto mb-2 flex items-center justify-center">
@@ -155,17 +157,9 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
-                                <p class="text-sm font-medium text-green-700">Turbidity</p>
+                                <p class="text-sm font-medium text-green-700">Load Cell Sensor</p>
                                 <p class="text-xs text-gray-600">Ready</p>
-                            </div>
-                            <div class="text-center">
-                                <div class="sensor-status w-12 h-12 bg-yellow-500 rounded-full mx-auto mb-2 flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3"></path>
-                                    </svg>
-                                </div>
-                                <p class="text-sm font-medium text-yellow-700">Temperature</p>
-                                <p class="text-xs text-gray-600">Calibrating</p>
+                                <pre id="lastMsgLoad">—</pre>
                             </div>
                         </div>
                     </div>
@@ -361,6 +355,73 @@
 
 @section('scripts')
 <script>
+const AI_BACKEND = @json(config('services.ai_backend'));
+
+const topicElements = {
+  'uromed/ph': document.getElementById('lastMsgPh'),
+  'uromed/color': document.getElementById('lastMsgColor'),
+  'uromed/load_cell': document.getElementById('lastMsgLoad')
+};
+
+const sockets = {};  // Simpan semua WebSocket berdasarkan topik
+const reconnectAttempts = {}; // Tracking retry per topik
+
+function storeLast(topic, msg) {
+  window[`lastWSMessage_${topic}`] = msg;
+  try {
+    localStorage.setItem(`lastWSMessage_${topic}`, msg);
+  } catch (e) {
+    console.warn('localStorage set failed', e);
+  }
+
+  if (topicElements[topic]) {
+    topicElements[topic].textContent = msg;
+  }
+}
+
+function connect(topic) {
+  const uri = `${AI_BACKEND}/ws/${topic}`;
+  console.log(`[WS] Connecting to ${uri}`);
+
+  // Tutup koneksi lama kalau ada
+  if (sockets[topic]) {
+    try { sockets[topic].close(); } catch(e){}
+  }
+
+  const ws = new WebSocket(uri);
+  sockets[topic] = ws;
+  reconnectAttempts[topic] = 0;
+
+  ws.addEventListener('open', () => {
+    console.log(`[WS] Connected to ${topic}`);
+  });
+
+  ws.addEventListener('message', (ev) => {
+    const msg = ev.data;
+    // console.log(`[WS:${topic}]`, msg);
+    storeLast(topic, msg);
+  });
+
+  ws.addEventListener('close', () => {
+    // console.warn(`[WS] Connection closed for ${topic}`);
+    scheduleReconnect(topic);
+  });
+
+  ws.addEventListener('error', (err) => {
+    // console.error(`[WS] Error for ${topic}`, err);
+    ws.close();
+  });
+}
+
+function scheduleReconnect(topic) {
+  reconnectAttempts[topic]++;
+  const delay = Math.min(60, Math.pow(2, Math.min(reconnectAttempts[topic], 6))) * 1000;
+  console.log(`[WS] Reconnecting to ${topic} in ${delay/1000}s...`);
+  setTimeout(() => connect(topic), delay);
+}
+
+// --- Jalankan koneksi untuk semua topik ---
+['uromed/ph', 'uromed/color', 'uromed/load_cell'].forEach(connect);
 let currentStep = 1;
 
 function nextStep() {
@@ -451,12 +512,12 @@ function updateStepProgress(step) {
 }
 
 async function simulateAnalysis() {
-    const AI_BACKEND = @json(config('services.ai_backend'));
+
     const steps = [
-        { name: 'ph', url: `${AI_BACKEND}/analysis/ph` },
-        { name: 'color', url: `${AI_BACKEND}/analysis/color` },
-        { name: 'mass', url: `${AI_BACKEND}/analysis/mass` },
-        { name: 'velocity', url: `${AI_BACKEND}/analysis/velocity` },
+        { name: 'ph', url: window[`lastWSMessage_uromed/ph`] },
+        { name: 'color', url: window[`lastWSMessage_uromed/color`] },
+        { name: 'mass', url: window[`lastWSMessage_uromed/load_cell`] },
+        { name: 'velocity', url: window[`lastWSMessage_uromed/load_cell`] },
         { name: 'ai', url: `${AI_BACKEND}/analysis/ai` }
     ];
 
@@ -511,13 +572,12 @@ async function simulateAnalysis() {
                 results.raw_sensor_data.analisis_ai = data;
                 results.overall_status = "normal";
             } else {
-                response = await fetch(url);
-                data = await response.json();
-                document.getElementById(`result-${name}`).innerText = data.result ?? "-";
-                if (name === 'ph') results.ph_level = data.result;
-                if (name === 'color') results.color = data.result;
-                if (name === 'mass') results.raw_sensor_data.mass = data.result;
-                if (name === 'velocity') results.raw_sensor_data.velocity = data.result;
+                data = url
+                document.getElementById(`result-${name}`).innerText = data ?? "-";
+                if (name === 'ph') results.ph_level = data;
+                if (name === 'color') results.color = data;
+                if (name === 'mass') results.raw_sensor_data.mass = data;
+                if (name === 'velocity') results.raw_sensor_data.velocity = data;
             }
         } catch (err) {
             console.error(`Error in ${name}:`, err);
